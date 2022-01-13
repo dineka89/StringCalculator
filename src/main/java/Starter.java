@@ -14,20 +14,20 @@ public class Starter {
         String str = scanner.nextLine();
         filter(str);
         String[] a = personalSplitter(str);
-        if (a[1].equalsIgnoreCase(" + ")) {
+        a[1] = a[1].replace(" ", "");
+        if (a[1].equalsIgnoreCase("+")) {
             System.out.println(a[0] + a[2]);
-        } else if (a[1].equalsIgnoreCase(" - ")) {
+        } else if (a[1].equalsIgnoreCase("-")) {
             String c = a[0].replace(a[2], "");
             System.out.println(c);
         } else {
             int num;
-            if (a[1].equalsIgnoreCase(" * ")) {
+            if (a[1].equalsIgnoreCase("*")) {
                 num = Integer.parseInt(a[2]);
-
                 for (int i = 0; i < num; ++i) {
                     System.out.print(a[0]);
                 }
-            } else if (a[1].equalsIgnoreCase(" / ")) {
+            } else if (a[1].equalsIgnoreCase("/")) {
                 num = Integer.parseInt(a[2]);
                 String abv = a[0].substring(0, num);
                 System.out.println(abv);
@@ -35,7 +35,6 @@ public class Starter {
                 System.out.println("INCORRECT OPERATION TYPE");
             }
         }
-
     }
 
     public static boolean filter(String incString) {
@@ -56,19 +55,50 @@ public class Starter {
         int counter = 0;
         String tmpResult = "";
 
+        //цикл для подсчета кавычек
+        int kavCount = 0;
         for (int i = 0; i < charArray.length; ++i) {
-            if (charArray[i] == "\"".toCharArray()[0] && start) {
-                tmpResult = tmpResult + charArray[i];
-                start = !start;
-            } else if (charArray[i] == "\"".toCharArray()[0] && !start) {
-                result[counter] = tmpResult.replace("\"", "");
-                tmpResult = "";
-                ++counter;
-                start = !start;
-                --i;
-            } else {
-                tmpResult = tmpResult + charArray[i];
+            if (charArray[i] == "\"".toCharArray()[0]) {
+                kavCount++;
             }
+        }
+        //в зависимости от количества кавычек выбираем алгоритм
+        if (kavCount == 4) {
+            for (int i = 0; i < charArray.length; ++i) {
+                if (charArray[i] == "\"".toCharArray()[0] && start) {
+                    tmpResult = tmpResult + charArray[i];
+                    start = !start;
+                } else if (charArray[i] == "\"".toCharArray()[0] && !start) {
+                    result[counter] = tmpResult.replace("\"", "");
+                    tmpResult = "";
+                    ++counter;
+                    start = !start;
+                    --i;
+                } else {
+                    tmpResult = tmpResult + charArray[i];
+                }
+            }
+        } else if (kavCount == 2) {
+            start = true;
+            result = new String[3];
+            int localCounter = 0;
+            for (int i = 0; i < charArray.length; ++i) {
+                if (charArray[i] == "\"".toCharArray()[0] && start) {
+                    tmpResult = tmpResult + charArray[i];
+                    start = !start;
+                } else if (charArray[i] == "\"".toCharArray()[0] && !start) {
+                    result[counter] = tmpResult.replace("\"", "");
+                    ++counter;
+                    localCounter = i;
+                    break;
+                } else {
+                    tmpResult = tmpResult + charArray[i];
+                }
+            }
+            String[] incSub = incString.substring(localCounter + 2, charArray.length).split(" ");
+            //дописываем в массив result
+            result[1] = incSub[0];
+            result[2] = incSub[1];
         }
 
         return result;
