@@ -24,12 +24,12 @@ public class Starter {
             if (a[1].equalsIgnoreCase(" * ")) {
                 num = Integer.parseInt(a[2]);
 
-                for(int i = 0; i < num; ++i) {
+                for (int i = 0; i < num; ++i) {
                     System.out.print(a[0]);
                 }
             } else if (a[1].equalsIgnoreCase(" / ")) {
                 num = Integer.parseInt(a[2]);
-                String abv = a[0].substring(num);
+                String abv = a[0].substring(0, num);
                 System.out.println(abv);
             } else {
                 System.out.println("INCORRECT OPERATION TYPE");
@@ -56,7 +56,7 @@ public class Starter {
         int counter = 0;
         String tmpResult = "";
 
-        for(int i = 0; i < charArray.length; ++i) {
+        for (int i = 0; i < charArray.length; ++i) {
             if (charArray[i] == "\"".toCharArray()[0] && start) {
                 tmpResult = tmpResult + charArray[i];
                 start = !start;
