@@ -12,46 +12,58 @@ public class Starter {
     public static void worker() {
         Scanner scanner = new Scanner(System.in);
         String str = scanner.nextLine();
-        filter(str);
         String[] a = personalSplitter(str);
         a[1] = a[1].replace(" ", "");
+        String resString = "";
+        int num = Integer.parseInt(a[2]);
         if (a[1].equalsIgnoreCase("+")) {
-            System.out.println(a[0] + a[2]);
+            resString = a[0] + a[2];
         } else if (a[1].equalsIgnoreCase("-")) {
-            String c = a[0].replace(a[2], "");
-            System.out.println(c);
-        } else {
-            int num;
-            if (a[1].equalsIgnoreCase("*")) {
-                num = Integer.parseInt(a[2]);
-                for (int i = 0; i < num; ++i) {
-                    System.out.print(a[0]);
-                }
-            } else if (a[1].equalsIgnoreCase("/")) {
-                num = Integer.parseInt(a[2]);
-                String abv = a[0].substring(0, num);
-                System.out.println(abv);
-            } else {
-                System.out.println("INCORRECT OPERATION TYPE");
+            resString = a[0].replace(a[2], "");
+        } else if (a[1].equalsIgnoreCase("*")) {
+            for (int i = 0; i < num; ++i) {
+                resString += a[0];
             }
+        } else if (a[1].equalsIgnoreCase("/")) {
+            resString = a[0].substring(0, num);
+        } else {
+            System.out.println("INCORRECT OPERATION TYPE");
         }
+        if (resString.length() >= 40) {
+            resString = resString.substring(0, 40) + "...";
+        }
+        System.out.println(resString);
     }
 
-    public static boolean filter(String incString) {
-        String[] testA1 = incString.split(" ");
-        if (testA1[0].substring(0, 1).equalsIgnoreCase("\"") && testA1[0].substring(testA1[0].length() - 1).equalsIgnoreCase("\"")) {
+
+    public static boolean filter(String[] a, String[] b, String entered) {
+        boolean result = true;
+        //проверка на кавычки
+        if (a[0].substring(0, 1).equalsIgnoreCase("\"")
+                && a[0].substring(a[0].length() - 1).equalsIgnoreCase("\"")) {
             System.out.println("TEST 1 OK");
-            return true;
         } else {
             System.out.println("TEST 1 ERROR");
             return false;
         }
+        //проверка на число >1 && <=10
+        try {
+            int num = Integer.parseInt(a[2]);
+            if (num < 1 || num > 10) {
+                System.out.println("TEST 2 ERROR");
+                return false;
+            }
+        } catch (NumberFormatException nfe) {
+            //test not necessary
+        }
+        return result;
     }
 
     private static String[] personalSplitter(String incString) {
         char[] charArray = incString.toCharArray();
         boolean start = true;
         String[] result = new String[3];
+        String[] result2 = new String[3];
         int counter = 0;
         String tmpResult = "";
 
@@ -70,6 +82,7 @@ public class Starter {
                     start = !start;
                 } else if (charArray[i] == "\"".toCharArray()[0] && !start) {
                     result[counter] = tmpResult.replace("\"", "");
+                    result2[counter] = tmpResult + "\"";
                     tmpResult = "";
                     ++counter;
                     start = !start;
@@ -88,6 +101,7 @@ public class Starter {
                     start = !start;
                 } else if (charArray[i] == "\"".toCharArray()[0] && !start) {
                     result[counter] = tmpResult.replace("\"", "");
+                    result2[counter] = tmpResult + "\"";
                     ++counter;
                     localCounter = i;
                     break;
@@ -100,7 +114,7 @@ public class Starter {
             result[1] = incSub[0];
             result[2] = incSub[1];
         }
-
+        filter(result2, result, incString);
         return result;
     }
 }
