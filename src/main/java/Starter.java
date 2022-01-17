@@ -1,28 +1,35 @@
 import java.util.Scanner;
+
 //класс стартер
 public class Starter {
-    public Starter() {
-    }
-     // принисает метод worker
+    //переменная отвечает за то, является ли a[2] числом
+    private static boolean isDigit;
+
+    // принисает метод worker000000
     public static void main(String[] args) {
+        //вызов метода воркер11111111
         worker();
         //выводит строку finish
         System.out.println("FINISH");
     }
-     //метод worker
+
+    //метод worker
     public static void worker() {
         //создается сканер
         Scanner scanner = new Scanner(System.in);
-        //строка str
+        //строка str считанная из консоли
         String str = scanner.nextLine();
-        //массив a
+        //массив a с результатом разбиения на элементы
         String[] a = personalSplitter(str);
-        //индекс a[1] поменять пробел на не пробел
+        //индекс a[1] поменять пробел на пустое значение
         a[1] = a[1].replace(" ", "");
-        //строка resString без пробела
+        //строка resString без пробела0000 инициализация новой переменной String
         String resString = "";
         //распарсили строку в число
-        int num = Integer.parseInt(a[2]);
+        int num = 0;
+        if (isDigit) {
+            num = Integer.parseInt(a[2]);
+        }
         //если индекс a[1] равен +
         if (a[1].equalsIgnoreCase("+")) {
             // тогда нулевой индекс прибавить ко 2
@@ -33,14 +40,15 @@ public class Starter {
             resString = a[0].replace(a[2], "");
             //если индекс 1 равен *
         } else if (a[1].equalsIgnoreCase("*")) {
-            // цикл for прохлдит от 0 пока i не будет меньше num и прибавляет по 1
+            // цикл for проходит от 0 пока i не будет меньше num и прибавляет по 1
             for (int i = 0; i < num; ++i) {
-                // 0 индекс строки равен i
+                // 0 индекс строки равен i 0000000 конкатенируем значение нулевого элемента num раз
                 resString += a[0];
             }
             //если индекс 1 равен /
         } else if (a[1].equalsIgnoreCase("/")) {
-            // тогда строка = 0 индекс вернуть то что внутри посчитается(от 0 до указаной цыфры)
+            // тогда строка = 0 индекс вернуть то что внутри посчитается(от 0 до указаной цифры)
+            // вернуть подстроку строки a[0] в диапазоне 0-num
             resString = a[0].substring(0, num);
         } else {
             //иначе вывести incorrect operation type
@@ -55,7 +63,8 @@ public class Starter {
         System.out.println(resString);
     }
 
-     // булевый метод filter принимает строковый массив a, массив b, строку enterd
+
+    // булевый метод filter принимает строковый массив a, массив b, строку enterd
     public static boolean filter(String[] a, String[] b, String entered) {
         //результат = правда
         boolean result = true;
@@ -65,7 +74,7 @@ public class Starter {
                 // и посчитать от 0 индекса и всю длину строки и отнять 1 равен ковычка
                 && a[0].substring(a[0].length() - 1).equalsIgnoreCase("\"")) {
             // вывести тест 1 пройден
-            System.out.println("TEST 1 OK");
+            System.out.println("TEST 1 OK 1 WORD");
         } else {
             // иначе вывести тест 1 не пройден
             System.out.println("TEST 1 ERROR");
@@ -77,6 +86,7 @@ public class Starter {
         try {
             //распарсить строку с индексом 2 в число
             int num = Integer.parseInt(a[2]);
+            isDigit = true;
             //если число меньше 1 и число больше 10
             if (num < 1 || num > 10) {
                 //тогда вывести test 2 не прошел
@@ -86,18 +96,29 @@ public class Starter {
             }
             // поймать ошибку NumberFormatException nfe
         } catch (NumberFormatException nfe) {
-            //test not necessary
+            if (a[2].substring(0, 1).equalsIgnoreCase("\"")
+                    // и посчитать от 0 индекса и всю длину строки и отнять 1 равен ковычка
+                    && a[2].substring(a[2].length() - 1).equalsIgnoreCase("\"")) {
+                // вывести тест 1 пройден
+                System.out.println("TEST 1 OK 2 WORD");
+            } else {
+                // иначе вывести тест 1 не пройден
+                System.out.println("TEST 1 ERROR");
+                //вернуть false
+                return false;
+            }
         }
         // вернуть результат
         return result;
     }
-     // метод строковый массив personalSplitter который принимает incString
-        private static String[] personalSplitter(String incString) {
-        char[] charArray = incString.toCharArray();//?
+
+    // статический метод возвращающий строковый массив personalSplitter который принимает incString
+    private static String[] personalSplitter(String incString) {
+        char[] charArray = incString.toCharArray();// массив символов
         boolean start = true;
-        //массив result равен новому строковому массиву в котором 3 индекса
+        //массив result равен новому строковому массиву в котором 3 индекса 0000 инициализируем новый стринг массив на 3 элемента
         String[] result = new String[3];
-            //массив result2 равен новому строковому массиву в котором 3 индекса
+        //массив result2 равен новому строковому массиву в котором 3 индекса
         String[] result2 = new String[3];
         //переменная counter с типом число равен 0
         int counter = 0;
@@ -105,7 +126,7 @@ public class Starter {
         String tmpResult = "";
 
         //цикл для подсчета кавычек
-            //переменная kavCount равен 0
+        //переменная kavCount равен 0
         int kavCount = 0;
         //цикл for если
         for (int i = 0; i < charArray.length; ++i) {
