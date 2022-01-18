@@ -108,6 +108,11 @@ public class Starter {
                 return false;
             }
         }
+        if(a[0].replace("\"", "").length() <= 10 && a[2].length() <= 10 ) {
+            System.out.println("TEST 3 OK");
+        }else {
+            System.out.println("TEST 3 ERROR");
+        }
         // вернуть результат
         return result;
     }
@@ -173,6 +178,9 @@ public class Starter {
             //дописываем в массив result
             result[1] = incSub[0];
             result[2] = incSub[1];
+            result2[1] = incSub[0];
+            result2[2] = incSub[1];
+
         }
         filter(result2, result, incString);
         return result;
