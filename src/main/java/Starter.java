@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Scanner;
 
 //класс стартер
@@ -5,8 +6,8 @@ public class Starter {
     //переменная отвечает за то, является ли a[2] числом
     private static boolean isDigit;
 
-    // принисает метод worker000000
-    public static void main(String[] args) {
+    // принимает метод worker000000
+    public static void main(String[] args) throws IOException {
         //вызов метода воркер11111111
         worker();
         //выводит строку finish
@@ -14,10 +15,11 @@ public class Starter {
     }
 
     //метод worker
-    public static void worker() {
+    public static void worker() throws IOException {
         //создается сканер
         Scanner scanner = new Scanner(System.in);
         //строка str считанная из консоли
+        System.out.println("Введите выражение: ");
         String str = scanner.nextLine();
         //массив a с результатом разбиения на элементы
         String[] a = personalSplitter(str);
@@ -47,12 +49,16 @@ public class Starter {
             }
             //если индекс 1 равен /
         } else if (a[1].equalsIgnoreCase("/")) {
+            if (isDigit == false) {
+                throw new IOException("INCORRECT DATA");
+            }
             // тогда строка = 0 индекс вернуть то что внутри посчитается(от 0 до указаной цифры)
             // вернуть подстроку строки a[0] в диапазоне 0-num
             resString = a[0].substring(0, num);
         } else {
             //иначе вывести incorrect operation type
             System.out.println("INCORRECT OPERATION TYPE");
+            throw new IOException("INCORRECT DATA");
         }
         // если длина строки больше либо равно 40
         if (resString.length() >= 40) {
@@ -62,6 +68,8 @@ public class Starter {
         //вывести restring
         System.out.println(resString);
     }
+
+
 
 
     // булевый метод filter принимает строковый массив a, массив b, строку enterd
@@ -91,6 +99,7 @@ public class Starter {
             if (num < 1 || num > 10) {
                 //тогда вывести test 2 не прошел
                 System.out.println("TEST 2 ERROR");
+
                 // вернуть false
                 return false;
             }
@@ -108,7 +117,8 @@ public class Starter {
                 return false;
             }
         }
-        if(a[0].replace("\"", "").length() <= 10 && a[2].length() <= 10 ) {
+        if(a[0].replace("\"" +
+                "", "").length() <= 10 && a[2].length() <= 10 ) {
             System.out.println("TEST 3 OK");
         }else {
             System.out.println("TEST 3 ERROR");
@@ -118,7 +128,7 @@ public class Starter {
     }
 
     // статический метод возвращающий строковый массив personalSplitter который принимает incString
-    private static String[] personalSplitter(String incString) {
+    private static String[] personalSplitter(String incString) throws IOException {
         char[] charArray = incString.toCharArray();// массив символов
         boolean start = true;
         //массив result равен новому строковому массиву в котором 3 индекса 0000 инициализируем новый стринг массив на 3 элемента
@@ -174,15 +184,28 @@ public class Starter {
                     tmpResult = tmpResult + charArray[i];
                 }
             }
-            String[] incSub = incString.substring(localCounter + 2, charArray.length).split(" ");
+            try {
+                String[] incSub = incString.substring(localCounter + 2, charArray.length).split(" ");
+                result[1] = incSub[0];
+                result[2] = incSub[1];
+                result2[1] = incSub[0];
+                result2[2] = incSub[1];
+            }catch (StringIndexOutOfBoundsException ape){
+                throw new IOException("INCORRECT DATA");
+            }
             //дописываем в массив result
-            result[1] = incSub[0];
-            result[2] = incSub[1];
-            result2[1] = incSub[0];
-            result2[2] = incSub[1];
+
 
         }
-        filter(result2, result, incString);
+        try {
+            boolean a = filter(result2, result, incString);
+            if (a == false){
+                throw new IOException("INCORRECT DATA");
+            }
+        }catch (NullPointerException npe){
+            throw new  IOException("INCORRECT DATA");
+        }
+
         return result;
     }
 }
