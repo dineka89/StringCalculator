@@ -32,7 +32,7 @@ public class Starter {
             if (isDigit == false) {
                 throw new IOException("INCORRECT DATA");
             }
-            resString = a[0].substring(0, num);
+            resString = a[0].substring(0, a[0].length() / num);
         } else {
             System.out.println("INCORRECT OPERATION TYPE");
             throw new IOException("INCORRECT DATA");
